@@ -88,18 +88,13 @@ export function saveLayout(layout, isMobile) {
 }
 
 export function exportLayout(layout) {
-  const text = JSON.stringify(layout, null, 2);
-  const blob = new Blob([text], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
+  const data = JSON.stringify(layout, null, 2);
 
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'dashboard-layout.json';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(new Blob([data]));
+  link.download = "layout.json";
 
-  URL.revokeObjectURL(url);
+  link.click();
 }
 
 export function resetSavedLayout() {
