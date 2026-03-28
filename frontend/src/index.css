@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import "golden-layout/dist/css/goldenlayout-base.css";
+@import "golden-layout/dist/css/themes/goldenlayout-dark-theme.css";
+
+#root {
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom styles for panels */
+.panel-container {
+  min-height: 300px;
+  width: 100%;
+  padding: clamp(0.5rem, 1.5vw, 1rem);
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 0.75rem;
+}
