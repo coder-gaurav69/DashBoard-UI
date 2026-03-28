@@ -48,7 +48,6 @@ const DashboardHeader = (props) => {
     onSaveLayout,
   } = props;
 
-  const isHorizontal = navMode === "horizontal";
   const isVertical = navMode === "vertical";
 
   if (isMobile) {

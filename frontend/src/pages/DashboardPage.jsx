@@ -67,7 +67,7 @@ function DashboardPage() {
     try {
       layout.loadLayout(config);
       layout.loadLayout(LayoutConfig.fromResolved(layout.saveLayout()));
-    } catch (e) {
+    } catch (err) {
       layout.loadLayout(isMobile ? mobileDefaultLayout : defaultLayout);
     }
 
@@ -113,7 +113,7 @@ function DashboardPage() {
         onRemoveLastPanel={removeLast}
         onExportLayout={() => goldenLayoutRef.current && exportLayout(goldenLayoutRef.current.saveLayout())}
         onResetLayout={() => { resetSavedLayout(); window.location.reload(); }}
-        onSaveLayout={() => { saveLayout(goldenLayoutRef.current.saveLayout(), isMobile); alert("Saved! ✅"); }}
+        onSaveLayout={() => { saveLayout(goldenLayoutRef.current.saveLayout(), isMobile); alert("Saved!"); }}
       />
 
       <div className="flex-1 flex flex-col min-h-0">
