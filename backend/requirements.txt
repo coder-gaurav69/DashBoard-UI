@@ -1,6 +1,6 @@
-fastapi==0.116.1
-uvicorn==0.35.0
-SQLAlchemy==2.0.36
-greenlet==3.1.1
+fastapi==0.115.11
+uvicorn==0.34.0
+SQLAlchemy==2.0.38
+greenlet==3.3.1
 psycopg2-binary==2.9.10
-python-dotenv==1.1.1
+python-dotenv==1.0.1
