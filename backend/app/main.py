@@ -11,7 +11,6 @@ from app.router.routes import router
 app = FastAPI(title="Dashboard API")
 
 
-# Add CORS for frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
