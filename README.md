@@ -101,7 +101,3 @@ Create a `.env` file in the `frontend/` folder:
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
----
-
-## 📄 License
-This project is for demonstration purposes. All rights reserved.
