@@ -1,103 +1,195 @@
-# 📊 Flodata Analytics
+# Analytics Dashboard
 
-A powerful, interactive full-stack analytics dashboard designed for real-time data visualization and monitoring. Built with a robust FastAPI backend and a dynamic React frontend featuring a dockable multi-panel layout.
+Dashboard is a full-stack analytics dashboard platform with a dockable multi-panel frontend UI and a FastAPI backend service.
 
-## 🚀 Key Features
+It supports:
+- draggable/resizable dashboard panels using Golden Layout
+- chart, table, logs, and map panels
+- PostgreSQL-backed data with automatic fallback to sample data when DB is unavailable
 
--   **🧩 Dynamic Multi-Panel Layout**: Uses `Golden Layout` for a fully customizable, dockable, and resizable interface.
--   **📈 Real-time Visualizations**: Interactive charts powered by `Recharts` for insightful data trends.
--   **🗺️ Geographic Mapping**: Integrated `Leaflet` maps for location-based data tracking.
--   **📄 Live Operation Logs**: Dedicated panel for monitoring system events and logs in real-time.
--   **🗄️ Robust Backend**: High-performance FastAPI server with SQLAlchemy integration.
--   **💾 Database Flexibility**: Supports PostgreSQL with a seamless fallback to localized sample data.
--   **⚡ Modern Frontend**: Built with React 19, Vite, and Tailwind CSS for ultimate speed and style.
+## Tech Stack
 
----
+### Frontend
+- React 19
+- Vite 8
+- Golden Layout
+- Recharts
+- React Leaflet / Leaflet
+- Tailwind CSS
 
-## 🛠️ Tech Stack
+### Backend
+- FastAPI
+- Uvicorn
+- SQLAlchemy
+- PostgreSQL (optional in local dev; app falls back to sample data)
 
-### **Frontend**
-- **Framework**: React 19 (Vite)
-- **Styling**: Tailwind CSS
-- **Layout**: Golden Layout
-- **Charts**: Recharts
-- **Maps**: Leaflet / React-Leaflet
-- **Icons**: React Icons
-
-### **Backend**
-- **Framework**: FastAPI
-- **ORM**: SQLAlchemy
-- **Database**: PostgreSQL (optional)
-- **Environment**: Python 3.x
-
----
-
-## 📁 Project Structure
+## Monorepo Structure
 
 ```text
-Flodata Analytics/
-├── backend/                # FastAPI Application
-│   ├── app/                # Core logic (routes, models, controllers)
-│   ├── requirements.txt    # Python dependencies
-│   └── .env                # Backend configuration
-├── frontend/               # React Application (Vite)
-│   ├── src/                # Components, Pages, Utils
-│   ├── package.json        # Frontend dependencies
-│   └── .env.example        # Frontend environment template
-└── README.md               # Project documentation
+Flodata Analytic/
+├── README.md
+├── backend/
+│   ├── main.py
+│   ├── requirements.txt
+│   ├── runtime.txt
+│   └── app/
+│       ├── config.py
+│       ├── main.py
+│       ├── controllers/
+│       ├── data/
+│       ├── models/
+│       └── router/
+└── frontend/
+    ├── package.json
+    ├── vite.config.js
+    └── src/
+        ├── App.jsx
+        ├── config.js
+        ├── pages/
+        ├── components/
+        └── utils/
 ```
 
----
+## Prerequisites
 
-## ⚙️ Getting Started
+- Python 3.10+
+- Node.js 18+ (or latest LTS)
+- npm
+- PostgreSQL (optional for local development)
 
-### **1. Backend Setup**
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-2. Create and activate a virtual environment:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-4. Run the FastAPI server:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
+## Environment Variables
 
-### **2. Frontend Setup**
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+### Backend (`backend/.env`)
 
----
+`DATABASE_URL` (optional)
 
-## 📝 Configuration
+Default used by app if not provided:
 
-### **Backend (.env)**
-Create a `.env` file in the `backend/` folder:
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/db_name
-# If DATABASE_URL is missing, it skips PostgreSQL and uses sample data.
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/dashboard_db
 ```
 
-### **Frontend (.env)**
-Create a `.env` file in the `frontend/` folder:
+### Frontend (`frontend/.env`)
+
 ```env
 VITE_API_BASE_URL=http://localhost:8000
 ```
 
+If not set, frontend also defaults to `http://localhost:8000`.
+
+## Local Development Setup
+
+### 1) Start Backend
+
+```bash
+cd backend
+python -m venv venv
+```
+
+Activate virtual environment:
+
+Windows PowerShell:
+
+```powershell
+venv\Scripts\Activate.ps1
+```
+
+Windows CMD:
+
+```cmd
+venv\Scripts\activate.bat
+```
+
+macOS/Linux:
+
+```bash
+source venv/bin/activate
+```
+
+Install dependencies and run:
+
+```bash
+pip install -r requirements.txt
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+API docs: `http://localhost:8000/docs`
+
+### 2) Start Frontend
+
+In a new terminal:
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend URL (default Vite): `http://localhost:5173`
+
+## API Endpoints
+
+Base URL: `http://localhost:8000`
+
+- `GET /` : health/status payload with current mode (`postgresql` or `sample`)
+- `GET /api/stats` : chart data
+- `GET /api/table` : table data
+- `GET /api/logs` : logs data
+
+## Data Behavior
+
+- On startup, backend tries to connect to PostgreSQL using `DATABASE_URL`.
+- If DB connection succeeds:
+  - tables are created if missing
+  - initial seed data is inserted when tables are empty
+  - APIs read from PostgreSQL
+- If DB connection fails:
+  - APIs serve in-memory sample data from `backend/app/data/data.py`
+
+This makes local setup quick even without a running database.
+
+## Frontend Scripts
+
+From `frontend/`:
+
+- `npm run dev` : start development server
+- `npm run build` : production build
+- `npm run preview` : preview production build
+- `npm run lint` : run ESLint
+
+## Backend Dependencies
+
+From `backend/requirements.txt`:
+
+- fastapi
+- uvicorn
+- SQLAlchemy
+- psycopg2-binary
+- python-dotenv
+
+## Troubleshooting
+
+### Backend starts in sample mode
+
+Reason: PostgreSQL is not reachable with current `DATABASE_URL`.
+
+Fix:
+- verify PostgreSQL is running
+- verify database/user/password in `DATABASE_URL`
+- restart backend
+
+### Frontend cannot reach backend
+
+Fix:
+- make sure backend runs on port `8000`
+- confirm `VITE_API_BASE_URL` in `frontend/.env`
+- restart `npm run dev` after env changes
+
+### Leaflet map marker icon issue
+
+The project already sets marker icon assets explicitly in the map panel. If map markers disappear after dependency changes, reinstall frontend dependencies and restart the dev server.
+
+## Notes
+
+- CORS is currently open (`allow_origins=["*"]`) for development convenience.
+- Update CORS and environment configuration before production deployment.

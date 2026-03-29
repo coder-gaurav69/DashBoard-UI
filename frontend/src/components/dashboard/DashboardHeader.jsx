@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
@@ -30,6 +30,8 @@ function LayoutIcon({ type }) {
 }
 
 const DashboardHeader = (props) => {
+  const [showMobileControls, setShowMobileControls] = useState(false);
+
   const {
     isMobile,
     navOpen,
@@ -39,8 +41,6 @@ const DashboardHeader = (props) => {
     selectedPanelType,
     setSelectedPanelType,
     panelOptions,
-    showMobileControls,
-    setShowMobileControls,
     onAddPanel,
     onRemoveLastPanel,
     onExportLayout,
