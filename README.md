@@ -192,4 +192,3 @@ The project already sets marker icon assets explicitly in the map panel. If map 
 ## Notes
 
 - CORS is currently open (`allow_origins=["*"]`) for development convenience.
-- Update CORS and environment configuration before production deployment.
